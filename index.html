@@ -8,114 +8,133 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <style>
-        body { font-family: 'Pretendard', sans-serif; background-color: #f8f9fa; color: #333; }
-        .pink-gradient { background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%); }
-        .text-pink-main { color: #f24b78; }
-        .bg-pink-main { background-color: #f24b78; }
-        .border-pink-main { border-color: #f24b78; }
-        .card-shadow { box-shadow: 0 4px 15px rgba(242, 75, 120, 0.08); }
-        .input-focus:focus { outline: none; border-color: #f24b78; box-shadow: 0 0 0 2px rgba(242, 75, 120, 0.2); }
+        body { font-family: 'Pretendard', sans-serif; background-color: #f4f6f9; color: #333; }
+        .blue-gradient { background: linear-gradient(135deg, #6bb9f0 0%, #4a90e2 100%); }
+        .text-blue-main { color: #4a90e2; }
+        .bg-blue-main { background-color: #4a90e2; }
+        .border-blue-main { border-color: #4a90e2; }
+        .card-shadow { box-shadow: 0 4px 15px rgba(74, 144, 226, 0.08); }
+        .input-focus:focus { outline: none; border-color: #4a90e2; box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2); }
     </style>
 </head>
 <body class="antialiased pb-20">
 
-    <!-- ★사장님 스크립트 주소 입력 (이 줄 바로 아래 홑따옴표 사이에 아까 복사한 아주 긴 주소를 꼭 넣으세요!)★ -->
+    <!-- ★구글 스크립트 주소 입력★ -->
     <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbwbCb-k7SUxmWMm46SHQiX6xvZta3tLvGNlBnajdVyLN1UfURxlyYy6ThsaX1BcLhYgLw/exec'; // <--- 이 부분을 지우고 붙여넣으세요.
+        const scriptURL = 'YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE';
     </script>
 
     <!-- Header -->
     <header class="bg-white sticky top-0 z-50 card-shadow">
         <div class="max-w-md mx-auto px-4 h-14 flex items-center justify-between">
-            <button onclick="goHome()" class="text-gray-600 p-2"><i class="fas fa-bars text-xl"></i></button>
+            <button onclick="goHome()" class="text-gray-600 p-2"><i class="fas fa-home text-xl"></i></button>
             <div class="text-center">
-                <h1 class="text-xl font-bold text-pink-main">땅땅샵 💖</h1>
+                <h1 class="text-xl font-bold text-blue-main tracking-tight">땅땅샵</h1>
                 <p class="text-[10px] text-gray-400">LIVE SHOPPING</p>
             </div>
             <button onclick="showScreen('screen-tracking')" class="text-gray-600 flex flex-col items-center p-2">
                 <i class="fas fa-search text-sm"></i>
-                <span class="text-[9px] mt-0.5">주문조회</span>
+                <span class="text-[9px] mt-0.5">조회</span>
             </button>
         </div>
     </header>
 
-    <!-- Main Container -->
     <main class="max-w-md mx-auto px-4 mt-6">
         
         <!-- Screen: HOME -->
         <div id="screen-home" class="space-y-4">
-            <div class="bg-pink-50 rounded-2xl p-6 text-center card-shadow relative overflow-hidden mb-6">
-                <div class="text-xs text-pink-main font-medium mb-2">예쁜 일상이 특별해지는 곳</div>
-                <h2 class="text-2xl font-bold text-gray-800 mb-2">땅땅샵 💖</h2>
-                <p class="text-sm text-gray-600 leading-relaxed">라이브 방송에서 예약하신 상품을 불러오시거나,<br>직접 주문서를 작성하실 수 있어요.</p>
+            <div class="bg-blue-50 rounded-2xl p-6 text-center card-shadow relative overflow-hidden mb-6">
+                <div class="text-xs text-blue-main font-bold mb-2 tracking-widest">PREMIUM DAILY WEAR</div>
+                <h2 class="text-2xl font-black text-gray-800 mb-2">땅땅샵</h2>
+                <p class="text-sm text-gray-600 leading-relaxed">언제나 빠르고 정확하게<br>고객님의 소중한 상품을 배송해 드립니다.</p>
             </div>
 
-            <button onclick="showScreen('screen-live')" class="w-full pink-gradient text-white rounded-2xl p-5 flex items-center justify-between card-shadow active:scale-95 transition-transform">
+            <button onclick="showScreen('screen-direct')" class="w-full blue-gradient text-white rounded-2xl p-5 flex items-center justify-between card-shadow active:scale-95 transition-transform mt-3">
                 <div class="flex items-center gap-4">
-                    <div class="bg-white/20 p-3 rounded-xl"><i class="fas fa-play text-xl"></i></div>
+                    <div class="bg-white/20 p-3 rounded-xl"><i class="fas fa-pen text-xl"></i></div>
                     <div class="text-left">
-                        <div class="font-bold text-lg">라이브 주문 불러오기</div>
-                        <div class="text-xs text-white/80 mt-1">라이브에서 예약한 내역을 불러와요</div>
+                        <div class="font-bold text-lg">직접 주문서 작성</div>
+                        <div class="text-xs text-white/80 mt-1">방송 상품을 바로 주문할 수 있어요</div>
                     </div>
                 </div>
                 <i class="fas fa-chevron-right text-white/60"></i>
             </button>
 
-            <button onclick="showScreen('screen-direct')" class="w-full bg-white border-2 border-pink-100 rounded-2xl p-5 flex items-center justify-between card-shadow active:scale-95 transition-transform mt-3">
+            <button onclick="showScreen('screen-tracking')" class="w-full bg-white border border-gray-200 rounded-2xl p-5 flex items-center justify-between card-shadow active:scale-95 transition-transform mt-3">
                 <div class="flex items-center gap-4">
-                    <div class="bg-pink-50 text-pink-main p-3 rounded-xl"><i class="fas fa-pen text-xl"></i></div>
+                    <div class="bg-blue-50 text-blue-main p-3 rounded-xl"><i class="fas fa-truck text-xl"></i></div>
                     <div class="text-left">
-                        <div class="font-bold text-gray-800 text-lg">직접 주문서 작성</div>
-                        <div class="text-xs text-gray-500 mt-1">지금 바로 주문서를 작성해요</div>
+                        <div class="font-bold text-gray-800 text-lg">주문서 배송조회</div>
+                        <div class="text-xs text-gray-500 mt-1">내 주문 내역과 송장번호 확인하기</div>
                     </div>
                 </div>
                 <i class="fas fa-chevron-right text-gray-300"></i>
             </button>
+
+            <!-- 라이브 주문 불러오기는 나중에 쓰기 위해 주석처리 (숨김) -->
+            <!--
+            <button onclick="showScreen('screen-live')" class="w-full bg-white border border-gray-200 rounded-2xl p-5 flex items-center justify-between card-shadow active:scale-95 transition-transform mt-3">
+                <div class="flex items-center gap-4">
+                    <div class="bg-gray-50 text-gray-400 p-3 rounded-xl"><i class="fas fa-download text-xl"></i></div>
+                    <div class="text-left">
+                        <div class="font-bold text-gray-800 text-lg">라이브 주문 불러오기</div>
+                        <div class="text-xs text-gray-500 mt-1">예약 내역 연동 (준비중)</div>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right text-gray-300"></i>
+            </button>
+            -->
         </div>
 
         <!-- Screen: DIRECT ORDER FORM -->
         <div id="screen-direct" class="hidden">
             <button onclick="goHome()" class="text-gray-500 text-sm mb-4 flex items-center gap-1">
-                <i class="fas fa-arrow-left"></i> 이전으로
+                <i class="fas fa-arrow-left"></i> 뒤로가기
             </button>
             
             <div class="bg-white rounded-xl p-5 card-shadow mb-4">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="font-bold text-gray-800 flex items-center gap-2"><i class="fas fa-box text-pink-main"></i> 상품 입력</h3>
-                </div>
-                <div class="flex gap-2 mb-3">
-                    <input type="text" id="productCode" placeholder="상품명을 입력하세요 (예: 반팔티)" class="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm input-focus">
-                </div>
-                <div class="flex gap-2 mb-3">
-                    <input type="number" id="productPrice" placeholder="단가 (원)" class="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm input-focus" oninput="calculateTotal()">
-                    <input type="number" id="productQty" value="1" min="1" class="w-24 bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm text-center input-focus" oninput="calculateTotal()">
+                <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2"><i class="fas fa-box text-blue-main"></i> 상품 선택</h3>
+                <div class="flex flex-col gap-3 mb-3">
+                    <!-- ★사장님 판매 상품 목록 세팅하는 곳 (value="금액", data-name="상품명")★ -->
+                    <select id="productSelect" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm input-focus" onchange="calculateTotal()">
+                        <option value="0" data-name="">▼ 구매하실 상품을 선택해주세요</option>
+                        <option value="15000" data-name="여름 쿨링 반팔티 (화이트)">여름 쿨링 반팔티 (화이트) - 15,000원</option>
+                        <option value="15000" data-name="여름 쿨링 반팔티 (블랙)">여름 쿨링 반팔티 (블랙) - 15,000원</option>
+                        <option value="23000" data-name="편안한 밴딩 팬츠">편안한 밴딩 팬츠 - 23,000원</option>
+                        <option value="35000" data-name="상하의 세트 특가">상하의 세트 특가 - 35,000원</option>
+                    </select>
+                    
+                    <div class="flex items-center justify-between bg-gray-50 border border-gray-200 rounded-lg px-4 py-2">
+                        <span class="text-sm text-gray-600">수량 선택</span>
+                        <input type="number" id="productQty" value="1" min="1" class="w-20 bg-white border border-gray-300 rounded-md px-2 py-1 text-sm text-center input-focus" oninput="calculateTotal()">
+                    </div>
                 </div>
             </div>
 
             <div class="bg-white rounded-xl p-5 card-shadow mb-4">
                 <h3 class="font-bold text-gray-800 mb-4">배송비 선택</h3>
                 <div class="space-y-2">
-                    <label class="flex items-center p-4 border rounded-xl border-pink-main bg-pink-50/50 cursor-pointer" id="label-shipping-normal">
-                        <input type="radio" name="shipping" value="4000" class="text-pink-main focus:ring-pink-main" checked onchange="updateShippingUI(this)">
+                    <label class="flex items-center p-4 border rounded-xl border-blue-main bg-blue-50/50 cursor-pointer" id="label-shipping-normal">
+                        <input type="radio" name="shipping" value="4000" class="text-blue-main focus:ring-blue-main" checked onchange="updateShippingUI(this)">
                         <span class="ml-3 text-sm text-gray-700 font-medium">기본배송비 (4,000원)</span>
                     </label>
                     <label class="flex items-center p-4 border rounded-xl border-gray-200 cursor-pointer" id="label-shipping-jeju">
-                        <input type="radio" name="shipping" value="7000" class="text-pink-main focus:ring-pink-main" onchange="updateShippingUI(this)">
+                        <input type="radio" name="shipping" value="7000" class="text-blue-main focus:ring-blue-main" onchange="updateShippingUI(this)">
                         <span class="ml-3 text-sm text-gray-700 font-medium">제주 및 도서산간 (7,000원)</span>
                     </label>
                 </div>
             </div>
 
-            <!-- ★사장님 계좌번호 수정할 곳★ -->
+            <!-- ★계좌번호 수정하는 곳★ -->
             <div class="bg-white rounded-xl p-5 card-shadow mb-4">
                 <h3 class="font-bold text-gray-800 mb-4">결제방식 선택</h3>
-                <div class="bg-pink-50 rounded-xl p-4 flex items-center justify-between">
+                <div class="bg-blue-50 rounded-xl p-4 flex items-center justify-between border border-blue-100">
                     <div>
                         <div class="text-xs text-gray-500 mb-1">아래 계좌번호로 입금해 주세요.</div>
                         <div class="font-bold text-lg tracking-wider text-gray-800" id="accountNumber">1002-5790-8378</div>
-                        <div class="text-xs text-gray-600 mt-1">우리은행 · 김사장(땅땅샵)</div>
+                        <div class="text-xs text-gray-600 mt-1">우리은행 · 땅땅샵</div>
                     </div>
-                    <button onclick="copyAccount()" class="bg-pink-main text-white text-xs px-3 py-2 rounded-lg font-medium active:scale-95 transition-transform">
+                    <button onclick="copyAccount()" class="bg-blue-main text-white text-xs px-3 py-2 rounded-lg font-medium active:scale-95 transition-transform">
                         <i class="far fa-copy mr-1"></i>계좌 복사
                     </button>
                 </div>
@@ -123,12 +142,12 @@
 
             <div class="bg-white rounded-xl p-5 card-shadow mb-6">
                 <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
-                    <i class="fas fa-truck text-pink-main"></i> 배송지 입력
+                    <i class="fas fa-map-marker-alt text-blue-main"></i> 배송지 입력
                 </h3>
                 <div class="space-y-3">
-                    <input type="text" id="order-nickname" placeholder="닉네임 (예: 땅땅샵-s0t)" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm input-focus">
-                    <input type="text" id="order-name" placeholder="수령인 성함" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm input-focus">
-                    <input type="tel" id="order-phone" placeholder="연락처 (010-1234-5678)" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm input-focus">
+                    <input type="text" id="order-nickname" placeholder="방송 닉네임 (입장하신 닉네임)" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm input-focus">
+                    <input type="text" id="order-name" placeholder="수령인 성함 (실명)" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm input-focus">
+                    <input type="tel" id="order-phone" placeholder="연락처 (- 없이 숫자만 입력)" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm input-focus">
                     
                     <div class="flex gap-2">
                         <input type="text" id="order-zipcode" placeholder="우편번호" readonly class="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm cursor-pointer" onclick="openZipcode()">
@@ -140,7 +159,7 @@
                 </div>
             </div>
             
-            <div class="bg-white rounded-xl p-5 card-shadow mb-6">
+            <div class="bg-white rounded-xl p-5 card-shadow mb-6 border-t-[3px] border-blue-main">
                 <div class="flex justify-between items-center text-sm mb-2 text-gray-600">
                     <span>상품 금액</span>
                     <span id="summary-product">0원</span>
@@ -151,46 +170,68 @@
                 </div>
                 <div class="border-t border-dashed border-gray-300 pt-3 flex justify-between items-center">
                     <span class="font-bold text-gray-800">최종 결제 금액</span>
-                    <span id="summary-total" class="font-bold text-xl text-pink-main">4,000원</span>
+                    <span id="summary-total" class="font-bold text-xl text-blue-main">4,000원</span>
                 </div>
             </div>
 
-            <button onclick="submitOrder()" class="w-full pink-gradient text-white font-bold text-lg rounded-xl py-4 card-shadow active:scale-95 transition-transform flex justify-center items-center gap-2">
+            <button onclick="submitOrder()" class="w-full blue-gradient text-white font-bold text-lg rounded-xl py-4 card-shadow active:scale-95 transition-transform flex justify-center items-center gap-2">
                 <i class="fas fa-paper-plane"></i> 주문서 제출하기
             </button>
         </div>
 
-        <!-- (생략됨: 라이브 및 주문조회 화면 뼈대 - 글자수 제한으로 축약) -->
+        <!-- Screen: TRACKING (배송 조회 화면) -->
         <div id="screen-tracking" class="hidden">
-           <button onclick="goHome()" class="text-gray-500 text-sm mb-4"><i class="fas fa-arrow-left"></i> 이전으로</button>
-           <div class="bg-white rounded-xl p-6 card-shadow text-center">
-               <h3 class="font-bold text-lg mb-2">고객 주문서 조회</h3>
-               <p class="text-xs text-gray-500 mb-6">수령인 성함과 연락처 뒤 4자리를 입력해주세요.</p>
-               <input type="text" id="track-name" placeholder="수령인 성함" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm mb-3">
-               <input type="number" id="track-phone" placeholder="연락처 뒤 4자리" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm mb-4">
-               <button onclick="alert('데이터 연동이 필요합니다.')" class="w-full bg-pink-main text-white font-bold py-3 rounded-lg">조회하기</button>
+           <button onclick="goHome()" class="text-gray-500 text-sm mb-4 flex items-center gap-1">
+               <i class="fas fa-arrow-left"></i> 뒤로가기
+           </button>
+           <div class="bg-white rounded-xl p-6 card-shadow">
+               <div class="text-center mb-6">
+                   <h3 class="font-black text-xl mb-2 text-gray-800">내 주문을 쉽게 확인하세요</h3>
+                   <p class="text-xs text-gray-500">주문 내역과 배송 상태를 한 번에 조회할 수 있습니다.</p>
+               </div>
+               
+               <div class="bg-blue-50/50 border border-blue-100 rounded-xl p-5 mb-4">
+                   <div class="flex items-center gap-2 mb-4">
+                       <i class="fas fa-search text-blue-main"></i>
+                       <h4 class="font-bold text-gray-800 text-sm">고객 주문서 조회</h4>
+                   </div>
+                   <div class="flex gap-2">
+                       <div class="flex-1">
+                           <label class="text-[10px] text-gray-500 font-bold ml-1 mb-1 block">수령인 성함</label>
+                           <input type="text" id="track-name" placeholder="예) 김땅땅" class="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-sm input-focus">
+                       </div>
+                       <div class="flex-1">
+                           <label class="text-[10px] text-gray-500 font-bold ml-1 mb-1 block">연락처 뒤 4자리</label>
+                           <input type="number" id="track-phone" placeholder="예) 1234" class="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-sm input-focus">
+                       </div>
+                   </div>
+                   <button onclick="searchOrderTracking()" class="w-full bg-blue-main text-white font-bold py-3 mt-4 rounded-lg active:scale-95 transition-transform">주문조회 ❯</button>
+               </div>
+
+               <!-- 조회 결과가 나타날 공간 -->
+               <div id="tracking-results" class="hidden space-y-3 mt-4">
+                   <!-- 자바스크립트가 여기에 결과를 그려줍니다 -->
+               </div>
            </div>
         </div>
 
     </main>
 
-    <!-- Modal Base -->
+    <!-- Modal & Loading -->
     <div id="modal-overlay" class="hidden fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl w-full max-w-sm p-6 text-center card-shadow scale-95 transition-transform" id="modal-content">
-            <div id="modal-icon" class="text-4xl mb-4 text-pink-main"><i class="fas fa-check-circle"></i></div>
+            <div id="modal-icon" class="text-4xl mb-4 text-blue-main"><i class="fas fa-check-circle"></i></div>
             <p id="modal-text" class="text-gray-800 font-medium mb-6 whitespace-pre-line"></p>
             <button onclick="closeModal()" class="w-full bg-gray-800 text-white rounded-xl py-3 font-medium active:scale-95">확인</button>
         </div>
     </div>
-    
-    <!-- Loading Overlay -->
     <div id="loading-overlay" class="hidden fixed inset-0 bg-white/80 z-[110] flex flex-col items-center justify-center">
-        <div class="w-12 h-12 border-4 border-pink-100 border-t-pink-main rounded-full animate-spin mb-4"></div>
+        <div class="w-12 h-12 border-4 border-blue-100 border-t-blue-main rounded-full animate-spin mb-4"></div>
         <div id="loading-text" class="text-sm font-medium text-gray-600">처리중입니다...</div>
     </div>
 
     <script>
-        // Screen Navigation
+        // 화면 전환 로직
         function showScreen(screenId) {
             document.querySelectorAll('main > div').forEach(el => el.classList.add('hidden'));
             document.getElementById(screenId).classList.remove('hidden');
@@ -198,17 +239,18 @@
         }
         function goHome() { showScreen('screen-home'); }
 
-        // UI Updates
+        // 배송비 라디오 버튼 UI 변경
         function updateShippingUI(radio) {
-            document.getElementById('label-shipping-normal').classList.remove('border-pink-main', 'bg-pink-50/50');
-            document.getElementById('label-shipping-jeju').classList.remove('border-pink-main', 'bg-pink-50/50');
-            radio.closest('label').classList.add('border-pink-main', 'bg-pink-50/50');
+            document.getElementById('label-shipping-normal').classList.remove('border-blue-main', 'bg-blue-50/50');
+            document.getElementById('label-shipping-jeju').classList.remove('border-blue-main', 'bg-blue-50/50');
+            radio.closest('label').classList.add('border-blue-main', 'bg-blue-50/50');
             calculateTotal();
         }
 
-        // Calculate Total
+        // 총 금액 계산 (드롭다운 방식)
         function calculateTotal() {
-            const price = parseInt(document.getElementById('productPrice').value) || 0;
+            const selectEl = document.getElementById('productSelect');
+            const price = parseInt(selectEl.options[selectEl.selectedIndex].value) || 0;
             const qty = parseInt(document.getElementById('productQty').value) || 1;
             const pTotal = price * qty;
             const shipping = parseInt(document.querySelector('input[name="shipping"]:checked').value);
@@ -219,7 +261,7 @@
             document.getElementById('summary-total').innerText = total.toLocaleString() + '원';
         }
 
-        // Address Search (Daum API)
+        // 주소 검색 (다음 API)
         function openZipcode() {
             new daum.Postcode({
                 oncomplete: function(data) {
@@ -230,7 +272,7 @@
             }).open();
         }
 
-        // Copy Account
+        // 계좌 복사
         function copyAccount() {
             const acc = document.getElementById('accountNumber').innerText;
             navigator.clipboard.writeText(acc).then(() => {
@@ -238,10 +280,10 @@
             });
         }
 
-        // Modals & Loading
+        // 모달 및 로딩 관리
         function showModal(text, isError = false) {
             document.getElementById('modal-text').innerText = text;
-            document.getElementById('modal-icon').innerHTML = isError ? '<i class="fas fa-exclamation-circle text-red-500"></i>' : '<i class="fas fa-check-circle text-pink-main"></i>';
+            document.getElementById('modal-icon').innerHTML = isError ? '<i class="fas fa-exclamation-circle text-red-500"></i>' : '<i class="fas fa-check-circle text-blue-main"></i>';
             document.getElementById('modal-overlay').classList.remove('hidden');
             setTimeout(() => document.getElementById('modal-content').classList.remove('scale-95'), 10);
         }
@@ -257,35 +299,27 @@
             document.getElementById('loading-overlay').classList.add('hidden');
         }
 
-        // ==========================================
-        // ★ 구글 시트 연동 제출 (핵심 부분) ★
-        // ==========================================
+        // 주문서 제출 (구글 시트로 보내기)
         function submitOrder() {
-            // URL이 제대로 입력되었는지 검사
             if (scriptURL === 'YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE') {
-                showModal('구글 스크립트 주소가 설정되지 않았습니다.\n코드를 확인해주세요.', true);
-                return;
+                showModal('구글 스크립트 주소가 설정되지 않았습니다.', true); return;
             }
 
-            // 입력값 가져오기
-            const pName = document.getElementById('productCode').value;
-            const pPrice = document.getElementById('productPrice').value;
+            const selectEl = document.getElementById('productSelect');
+            const pPrice = parseInt(selectEl.options[selectEl.selectedIndex].value);
+            const pName = selectEl.options[selectEl.selectedIndex].getAttribute('data-name');
             const pQty = document.getElementById('productQty').value;
             const name = document.getElementById('order-name').value;
             const phone = document.getElementById('order-phone').value;
             const addr1 = document.getElementById('order-addr1').value;
             const addr2 = document.getElementById('order-addr2').value;
 
-            // 필수값 검사
-            if (!pName || !pPrice || !name || !phone || !addr1) {
-                showModal('상품 정보와 배송지 정보를\n모두 입력해주세요.', true);
-                return;
-            }
+            if (!pName || pPrice === 0) { showModal('상품을 선택해주세요.', true); return; }
+            if (!name || !phone || !addr1) { showModal('수령인, 연락처, 주소를 모두 입력해주세요.', true); return; }
 
-            const totalAmount = (parseInt(pPrice) * parseInt(pQty)) + parseInt(document.querySelector('input[name="shipping"]:checked').value);
+            const totalAmount = (pPrice * parseInt(pQty)) + parseInt(document.querySelector('input[name="shipping"]:checked').value);
             const fullAddress = `(${document.getElementById('order-zipcode').value}) ${addr1} ${addr2}`;
 
-            // 시트로 보낼 데이터 포장
             const requestData = {
                 orderType: "직접주문",
                 productName: `${pName} (${pQty}개)`,
@@ -298,24 +332,73 @@
             };
 
             showLoading('주문서를 전송하고 있습니다...');
-
-            // 서버로 발사!
             fetch(scriptURL, {
                 method: 'POST',
-                mode: 'no-cors', // 구글 시트 통신을 위한 필수 옵션
+                mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(requestData)
             })
             .then(() => {
                 hideLoading();
                 showModal('🎉 주문서 작성이 완료되었습니다!\n확인 후 빠른 배송 도와드릴게요.');
-                // 제출 후 폼 초기화 및 홈으로 이동
                 setTimeout(goHome, 2000); 
             })
             .catch(error => {
                 hideLoading();
                 showModal('통신 오류가 발생했습니다.\n다시 시도해주세요.', true);
-                console.error('Error!', error.message);
+            });
+        }
+
+        // 배송 조회 기능 (새로 추가됨)
+        function searchOrderTracking() {
+            if (scriptURL === 'YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE') {
+                showModal('시스템 연동이 필요합니다.', true); return;
+            }
+
+            const name = document.getElementById('track-name').value;
+            const phone = document.getElementById('track-phone').value;
+
+            if (!name || !phone || phone.length !== 4) {
+                showModal('수령인 성함과 연락처 뒤 4자리를 정확히 입력해주세요.', true);
+                return;
+            }
+
+            showLoading('주문내역을 조회중입니다...');
+            
+            // GET 방식으로 검색 요청 보내기
+            fetch(scriptURL + `?name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}`)
+            .then(res => res.json())
+            .then(data => {
+                hideLoading();
+                const container = document.getElementById('tracking-results');
+                container.innerHTML = '';
+                
+                if (data.length === 0) {
+                    showModal(`${name}님의 주문 내역이 조회되지 않습니다.`);
+                    container.classList.add('hidden');
+                } else {
+                    let html = '<div class="font-bold text-sm text-gray-800 mb-2 mt-4 px-1">조회 결과 (' + data.length + '건)</div>';
+                    data.forEach(item => {
+                        html += `
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs text-gray-500">${item.date}</span>
+                                <span class="text-xs font-bold px-2 py-1 bg-blue-100 text-blue-main rounded-md">${item.status}</span>
+                            </div>
+                            <div class="font-bold text-gray-800 mb-3">${item.product}</div>
+                            <div class="border-t border-gray-200 pt-3">
+                                <span class="text-xs text-gray-500 mr-2">송장번호</span>
+                                <span class="text-sm font-bold text-gray-700">${item.tracking ? item.tracking : '발송 준비중입니다.'}</span>
+                            </div>
+                        </div>`;
+                    });
+                    container.innerHTML = html;
+                    container.classList.remove('hidden');
+                }
+            })
+            .catch(err => {
+                hideLoading();
+                showModal('조회 중 오류가 발생했습니다.\n다시 시도해주세요.', true);
             });
         }
     </script>
