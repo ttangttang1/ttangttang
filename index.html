@@ -149,7 +149,7 @@
             <!-- 4. 배송비 및 계좌 -->
             <div class="bg-white rounded-xl p-5 card-shadow mb-4">
                 <h3 class="font-bold text-gray-800 mb-4">배송비 선택</h3>
-                <div class="space-y-2">
+                <div class="space-y-2 mb-4">
                     <label class="flex items-center p-4 border rounded-xl border-blue-main bg-blue-50/50 cursor-pointer" id="label-shipping-normal">
                         <input type="radio" name="shipping" value="4000" class="text-blue-main" checked onchange="updateShippingUI(this)">
                         <span class="ml-3 text-sm font-medium">기본배송비 (4,000원)</span>
@@ -158,6 +158,13 @@
                         <input type="radio" name="shipping" value="7000" class="text-blue-main" onchange="updateShippingUI(this)">
                         <span class="ml-3 text-sm font-medium">제주/도서산간 (7,000원)</span>
                     </label>
+                </div>
+                
+                <!-- ★여기가 새로 추가된 안내 문구 박스입니다★ -->
+                <div class="bg-blue-50 text-blue-main p-3.5 rounded-lg text-xs leading-relaxed border border-blue-100">
+                    <div class="font-bold mb-1.5 text-[13px]"><i class="fas fa-info-circle mr-1"></i>배송비 이벤트 안내</div>
+                    무료배송 이벤트 및 할인 시에는 <strong class="underline decoration-blue-300 underline-offset-2">배송비를 제외한 금액</strong>만 입금해 주시면 됩니다.<br>
+                    <span class="text-blue-400 mt-1 block">(단, 제주/도서산간 지역은 추가 배송비 <strong>3,000원</strong>만 포함하여 입금해 주세요.)</span>
                 </div>
             </div>
 
