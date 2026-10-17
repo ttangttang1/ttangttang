@@ -21,10 +21,9 @@
 </head>
 <body class="antialiased pb-20">
 
-    <!-- ★사장님이 주신 구글 스크립트 주소가 세팅되어 있습니다★ -->
     <script>
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwbCb-k7SUxmWMm46SHQiX6xvZta3tLvGNlBnajdVyLN1UfURxlyYy6ThsaX1BcLhYgLw/exec';
-        let cart = []; // 장바구니 배열
+        let cart = []; 
     </script>
 
     <!-- Header -->
@@ -76,7 +75,6 @@
         <div id="screen-direct" class="hidden">
             <button onclick="goHome()" class="text-gray-500 text-sm mb-4"><i class="fas fa-arrow-left"></i> 뒤로가기</button>
             
-            <!-- 1. 상품 선택 및 장바구니 담기 영역 -->
             <div class="bg-white rounded-xl p-5 card-shadow mb-4">
                 <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2"><i class="fas fa-box-open text-blue-main"></i> 구매할 상품 추가</h3>
                 
@@ -85,14 +83,12 @@
                     <button id="btn-mode-manual" onclick="setOrderMode('manual')" class="flex-1 py-2 text-sm font-bold rounded-lg border tab-inactive transition-colors">방송상품 직접입력</button>
                 </div>
 
-                <!-- 모드 A: 미리 등록된 상품 (구글 시트에서 자동 불러옴) -->
                 <div id="mode-preset-area" class="space-y-3">
                     <select id="presetProduct" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm input-focus">
                         <option value="0" data-name="">상품 목록을 불러오는 중입니다...</option>
                     </select>
                 </div>
 
-                <!-- 모드 B: 직접입력 (안내 문구 수정됨) -->
                 <div id="mode-manual-area" class="hidden space-y-3">
                     <input type="text" id="manualName" placeholder="상품명이나 상품번호를 적어주세요" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm input-focus">
                     <div class="flex items-center gap-2">
@@ -101,7 +97,6 @@
                     </div>
                 </div>
 
-                <!-- 옵션: 색상, 사이즈 (여백 수정됨: grid-cols-2 사용) -->
                 <div class="mt-3 pt-3 border-t border-gray-100">
                     <div class="grid grid-cols-2 gap-3 mb-3">
                         <input type="text" id="optionColor" placeholder="색상 (예: 블랙)" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm input-focus">
@@ -121,20 +116,17 @@
                 </div>
             </div>
 
-            <!-- 2. 장바구니 목록 (여러개 추가 가능) -->
             <div class="bg-white rounded-xl p-5 card-shadow mb-4">
                 <h3 class="font-bold text-gray-800 mb-3 flex items-center justify-between">
                     <span><i class="fas fa-shopping-cart text-blue-main mr-1"></i> 추가된 상품 목록</span>
                     <span class="text-sm text-blue-main bg-blue-50 px-2 py-1 rounded-md" id="cartCount">0개</span>
                 </h3>
-                <!-- 담긴 상품이 표시될 공간 -->
                 <div id="cartList" class="space-y-2 mb-3 empty:hidden"></div>
                 <div id="emptyCartMsg" class="text-center text-sm text-gray-400 py-4 border border-dashed border-gray-200 rounded-lg">
                     위에서 상품을 추가해주세요.
                 </div>
             </div>
 
-            <!-- 3. 이미지 첨부 (장바구니 공통) -->
             <div class="bg-white rounded-xl p-5 card-shadow mb-4">
                 <h3 class="font-bold text-gray-800 mb-3"><i class="fas fa-camera text-blue-main mr-1"></i> 캡처 이미지 첨부 (선택)</h3>
                 <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center bg-gray-50 active:bg-gray-100 transition-colors">
@@ -146,7 +138,6 @@
                 </div>
             </div>
 
-            <!-- 4. 배송비 및 계좌 -->
             <div class="bg-white rounded-xl p-5 card-shadow mb-4">
                 <h3 class="font-bold text-gray-800 mb-4">배송비 선택</h3>
                 <div class="space-y-2 mb-4">
@@ -160,7 +151,6 @@
                     </label>
                 </div>
                 
-                <!-- ★여기가 새로 추가된 안내 문구 박스입니다★ -->
                 <div class="bg-blue-50 text-blue-main p-3.5 rounded-lg text-xs leading-relaxed border border-blue-100 break-keep">
                     <div class="font-bold mb-1.5 text-[13px]"><i class="fas fa-info-circle mr-1"></i>배송비 이벤트 안내</div>
                     무료배송 이벤트 및 할인 시에는 <strong class="underline decoration-blue-300 underline-offset-2">배송비를 제외한 금액</strong>만<br>
@@ -168,19 +158,19 @@
                     <span class="text-blue-400 mt-1 block">(단, 제주/도서산간 지역은 추가 배송비 <strong>3,000원</strong>만 포함하여<br>
                     입금해 주세요.)</span>
                 </div>
+            </div>
 
             <div class="bg-white rounded-xl p-5 card-shadow mb-4">
                 <h3 class="font-bold text-gray-800 mb-3">입금 계좌</h3>
                 <div class="bg-blue-50 rounded-xl p-4 flex items-center justify-between border border-blue-100">
                     <div>
-                        <div class="font-bold text-lg text-gray-800" id="accountNumber">3333-37-5798284</div>
-                        <div class="text-xs text-gray-600 mt-1">카카오뱅크 · 브로마켓</div>
+                        <div class="font-bold text-lg text-gray-800" id="accountNumber">1002-5790-8378</div>
+                        <div class="text-xs text-gray-600 mt-1">우리은행 · 땡땡땡샵</div>
                     </div>
                     <button onclick="copyAccount()" class="bg-blue-main text-white text-xs px-3 py-2 rounded-lg font-bold"><i class="far fa-copy mr-1"></i>복사</button>
                 </div>
             </div>
 
-            <!-- 5. 배송지 입력 -->
             <div class="bg-white rounded-xl p-5 card-shadow mb-6">
                 <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2"><i class="fas fa-map-marker-alt text-blue-main"></i> 배송지 입력</h3>
                 <div class="space-y-3">
@@ -197,7 +187,6 @@
                 </div>
             </div>
             
-            <!-- 최종 결제 금액 -->
             <div class="bg-white rounded-xl p-5 card-shadow mb-6 border-t-[3px] border-blue-main">
                 <div class="flex justify-between text-sm mb-2 text-gray-600"><span>담은 상품 금액</span><span id="summary-product">0원</span></div>
                 <div class="flex justify-between text-sm mb-3 text-gray-600"><span>배송비</span><span id="summary-shipping">4,000원</span></div>
@@ -256,7 +245,6 @@
         let currentMode = 'preset'; 
         let tempQty = 1;
 
-        // 페이지 켤 때 엑셀(상품목록 시트)에서 상품 리스트 불러오기
         window.onload = () => {
             fetch(scriptURL + '?action=getProducts')
             .then(res => res.json())
@@ -276,7 +264,6 @@
         }
         function goHome() { showScreen('screen-home'); }
 
-        // 입력 탭 변경
         function setOrderMode(mode) {
             currentMode = mode;
             document.getElementById('btn-mode-preset').className = mode === 'preset' ? "flex-1 py-2 text-sm font-bold rounded-lg border tab-active" : "flex-1 py-2 text-sm font-bold rounded-lg border tab-inactive";
@@ -285,14 +272,12 @@
             document.getElementById('mode-manual-area').classList.toggle('hidden', mode !== 'manual');
         }
 
-        // 수량 조절 버튼 기능
         function changeQty(amount) {
             tempQty += amount;
             if(tempQty < 1) tempQty = 1;
             document.getElementById('displayQty').innerText = tempQty;
         }
 
-        // 장바구니 담기 기능
         function addToCart() {
             let pName = "";
             let pPrice = 0;
@@ -310,7 +295,6 @@
                 if(!pName || pPrice === 0) { showModal('상품명(또는 번호)과 단가를 정확히 입력해주세요.', true); return; }
             }
 
-            // 배열에 담기
             cart.push({
                 mode: currentMode === 'preset' ? "등록" : "수기",
                 name: pName,
@@ -320,7 +304,6 @@
                 qty: tempQty
             });
 
-            // 입력칸 초기화
             if(currentMode === 'preset') document.getElementById('presetProduct').selectedIndex = 0;
             else { document.getElementById('manualName').value = ''; document.getElementById('manualPrice').value = ''; }
             document.getElementById('optionColor').value = '';
@@ -332,7 +315,6 @@
             showModal('장바구니에 상품이 추가되었습니다!');
         }
 
-        // 장바구니 화면에 그리기
         function renderCart() {
             const cartList = document.getElementById('cartList');
             cartList.innerHTML = '';
@@ -364,13 +346,11 @@
             renderCart();
         }
 
-        // 총액 합산 (장바구니 합계 + 배송비)
         function calculateTotal() {
             let cartSum = 0;
             cart.forEach(item => { cartSum += (item.price * item.qty); });
             
             let shipping = parseInt(document.querySelector('input[name="shipping"]:checked').value);
-            // 만약 장바구니가 비어있으면 배송비도 0원으로 처리할 수 있지만, 기본적으론 유지
             if(cart.length === 0) shipping = 4000; 
             
             const total = cartSum + shipping;
@@ -434,7 +414,6 @@
            });
         }
 
-        // 최종 폼 제출 (장바구니 내용을 엑셀로 전송)
         async function submitOrder() {
             if (cart.length === 0) { showModal('추가된 상품이 없습니다.\n상품을 먼저 장바구니에 담아주세요.', true); return; }
 
@@ -445,7 +424,6 @@
 
             if (!name || !phone || !addr1) { showModal('수령인, 연락처, 주소를 모두 입력해주세요.', true); return; }
 
-            // 장바구니 데이터를 텍스트로 예쁘게 변환 (엑셀 C열에 들어감)
             let cartString = cart.map((item, idx) => 
                 `${idx+1}. [${item.mode}] ${item.name} / ${item.color} / ${item.size} / ${item.qty}개`
             ).join('\n');
@@ -458,7 +436,7 @@
             let requestData = {
                 orderType: "장바구니결제",
                 productName: cartString,
-                optionInfo: `총 ${cart.length}종의 상품`, // 간단한 요약만 들어감
+                optionInfo: `총 ${cart.length}종의 상품`, 
                 totalPrice: totalAmount,
                 nickname: document.getElementById('order-nickname').value,
                 name: name,
@@ -470,7 +448,6 @@
                 imageMimeType: null
             };
 
-            // 이미지 첨부 확인
             const fileInput = document.getElementById('orderImage');
             if (fileInput.files.length > 0) {
                 const file = fileInput.files[0];
@@ -496,7 +473,7 @@
             .then(() => {
                 hideLoading();
                 showModal('🎉 주문서 작성이 완료되었습니다!\n장바구니가 초기화됩니다.');
-                cart = []; // 장바구니 초기화
+                cart = []; 
                 renderCart();
                 setTimeout(goHome, 2000); 
             })
@@ -505,7 +482,6 @@
             });
         }
 
-        // 배송조회 기능
         function searchOrderTracking() {
             const name = document.getElementById('track-name').value;
             const phone = document.getElementById('track-phone').value;
@@ -524,7 +500,6 @@
                 } else {
                     let html = '<div class="font-bold text-sm text-gray-800 mb-2 mt-4 px-1">조회 결과 (' + data.length + '건)</div>';
                     data.forEach(item => {
-                        // 엑셀에서 넘어오는 텍스트에 줄바꿈(\n)이 있으면 html의 <br>로 바꿔줌
                         const formattedProduct = item.product.replace(/\n/g, '<br>');
                         html += `
                         <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
