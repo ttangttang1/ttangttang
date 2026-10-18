@@ -127,14 +127,15 @@
                 </div>
             </div>
 
+            <!-- ★ 다중 이미지 첨부 영역으로 수정됨 ★ -->
             <div class="bg-white rounded-xl p-5 card-shadow mb-4">
-                <h3 class="font-bold text-gray-800 mb-3"><i class="fas fa-camera text-blue-main mr-1"></i> 캡처 이미지 첨부 (선택)</h3>
+                <h3 class="font-bold text-gray-800 mb-3"><i class="fas fa-camera text-blue-main mr-1"></i> 캡처 이미지 첨부 (여러 장 가능)</h3>
                 <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center bg-gray-50 active:bg-gray-100 transition-colors">
                     <label for="orderImage" class="cursor-pointer block">
                         <div class="text-sm font-bold text-gray-700">방송 화면 캡처가 있다면 첨부해주세요</div>
-                        <div class="text-xs text-blue-main mt-2 font-bold" id="fileNameDisplay">선택된 파일 없음</div>
+                        <div class="text-xs text-blue-main mt-2 font-bold whitespace-pre-line leading-relaxed" id="fileNameDisplay">선택된 파일 없음</div>
                     </label>
-                    <input type="file" id="orderImage" accept="image/*" class="hidden" onchange="displayFileName(this)">
+                    <input type="file" id="orderImage" accept="image/*" multiple class="hidden" onchange="displayFileName(this)">
                 </div>
             </div>
 
@@ -238,7 +239,7 @@
     </div>
     <div id="loading-overlay" class="hidden fixed inset-0 bg-white/90 z-[110] flex flex-col items-center justify-center">
         <div class="w-12 h-12 border-4 border-blue-100 border-t-blue-main rounded-full animate-spin mb-4"></div>
-        <div id="loading-text" class="text-sm font-bold text-gray-800">처리중입니다...</div>
+        <div id="loading-text" class="text-sm font-bold text-gray-800 whitespace-pre-line">처리중입니다...</div>
     </div>
 
     <script>
@@ -366,10 +367,15 @@
             calculateTotal();
         }
 
+        // ★ 여러 장의 파일 이름이 잘 나오도록 수정되었습니다.
         function displayFileName(input) {
             const display = document.getElementById('fileNameDisplay');
-            if(input.files && input.files[0]) {
-                display.innerText = "선택됨: " + input.files[0].name;
+            if(input.files && input.files.length > 0) {
+                let fileNames = [];
+                for(let i=0; i<input.files.length; i++) {
+                    fileNames.push(input.files[i].name);
+                }
+                display.innerText = "선택됨 (" + input.files.length + "장):\n" + fileNames.join('\n');
             } else {
                 display.innerText = "선택된 파일 없음";
             }
@@ -414,6 +420,7 @@
            });
         }
 
+        // ★ 여러 장의 이미지를 배열로 묶어서 서버로 보내는 로직이 적용되었습니다.
         async function submitOrder() {
             if (cart.length === 0) { showModal('추가된 상품이 없습니다.\n상품을 먼저 장바구니에 담아주세요.', true); return; }
 
@@ -443,20 +450,25 @@
                 phone: phone,
                 address: fullAddress,
                 memo: document.getElementById('order-memo').value,
-                imageFile: null,
-                imageFilename: null,
-                imageMimeType: null
+                images: [] // 여러 이미지를 담을 배열로 구조 변경
             };
 
             const fileInput = document.getElementById('orderImage');
             if (fileInput.files.length > 0) {
-                const file = fileInput.files[0];
-                if(file.size > 5 * 1024 * 1024) { showModal('이미지 용량이 너무 큽니다. (5MB 이하)', true); return; }
-                showLoading('이미지와 주문서를 전송 중입니다...\n창을 닫지 마세요.');
+                showLoading('이미지와 주문서를 전송 중입니다...\n(사진 1장당 3~5초 소요)');
                 try {
-                    requestData.imageFile = await getBase64(file);
-                    requestData.imageFilename = file.name;
-                    requestData.imageMimeType = file.type;
+                    for (let i = 0; i < fileInput.files.length; i++) {
+                        let file = fileInput.files[i];
+                        if(file.size > 5 * 1024 * 1024) { 
+                            hideLoading(); showModal(file.name + '\n이미지 용량이 너무 큽니다. (5MB 이하)', true); return; 
+                        }
+                        let base64Data = await getBase64(file);
+                        requestData.images.push({
+                            file: base64Data,
+                            filename: file.name,
+                            mimeType: file.type
+                        });
+                    }
                 } catch (e) {
                     hideLoading(); showModal('이미지 처리 중 오류가 발생했습니다.', true); return;
                 }
@@ -474,6 +486,8 @@
                 hideLoading();
                 showModal('🎉 주문서 작성이 완료되었습니다!\n장바구니가 초기화됩니다.');
                 cart = []; 
+                document.getElementById('fileNameDisplay').innerText = "선택된 파일 없음";
+                document.getElementById('orderImage').value = "";
                 renderCart();
                 setTimeout(goHome, 2000); 
             })
