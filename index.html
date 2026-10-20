@@ -78,18 +78,21 @@
             <div class="bg-white rounded-xl p-5 card-shadow mb-4">
                 <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2"><i class="fas fa-box-open text-blue-main"></i> 구매할 상품 추가</h3>
                 
-                <div class="flex gap-2 mb-4">
-                    <button id="btn-mode-preset" onclick="setOrderMode('preset')" class="flex-1 py-2 text-sm font-bold rounded-lg border tab-active transition-colors">등록된 상품 선택</button>
-                    <button id="btn-mode-manual" onclick="setOrderMode('manual')" class="flex-1 py-2 text-sm font-bold rounded-lg border tab-inactive transition-colors">방송상품 직접입력</button>
+                <!-- 버튼 영역 숨김 처리 (hidden 추가) -->
+                <div class="hidden gap-2 mb-4">
+                    <button id="btn-mode-preset" onclick="setOrderMode('preset')" class="flex-1 py-2 text-sm font-bold rounded-lg border tab-inactive transition-colors">등록된 상품 선택</button>
+                    <button id="btn-mode-manual" onclick="setOrderMode('manual')" class="flex-1 py-2 text-sm font-bold rounded-lg border tab-active transition-colors">방송상품 직접입력</button>
                 </div>
 
-                <div id="mode-preset-area" class="space-y-3">
+                <!-- 등록된 상품 드롭다운 숨김 처리 (hidden 추가) -->
+                <div id="mode-preset-area" class="hidden space-y-3">
                     <select id="presetProduct" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm input-focus">
                         <option value="0" data-name="">상품 목록을 불러오는 중입니다...</option>
                     </select>
                 </div>
 
-                <div id="mode-manual-area" class="hidden space-y-3">
+                <!-- 방송상품 직접입력 영역 활성화 (hidden 제거) -->
+                <div id="mode-manual-area" class="space-y-3">
                     <input type="text" id="manualName" placeholder="상품명이나 상품번호를 적어주세요" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm input-focus">
                     <div class="flex items-center gap-2">
                         <input type="number" id="manualPrice" placeholder="단가 (원)" class="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm input-focus">
@@ -243,7 +246,7 @@
     </div>
 
     <script>
-        let currentMode = 'preset'; 
+        let currentMode = 'manual'; 
         let tempQty = 1;
 
         window.onload = () => {
