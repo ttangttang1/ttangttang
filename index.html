@@ -256,7 +256,9 @@
         <div class="bg-white rounded-2xl w-full max-w-sm p-6 text-center card-shadow scale-95 transition-transform" id="modal-content">
             <div id="modal-icon" class="text-4xl mb-4 text-blue-main"><i class="fas fa-check-circle"></i></div>
             <p id="modal-text" class="text-gray-800 font-medium mb-6 whitespace-pre-line"></p>
-            <button onclick="closeModal()" class="w-full bg-gray-800 text-white rounded-xl py-3 font-medium">확인</button>
+            <div id="modal-btn-area">
+                <button type="button" onclick="closeModal()" class="w-full bg-gray-800 hover:bg-gray-900 text-white rounded-xl py-3 font-medium">확인</button>
+            </div>
         </div>
     </div>
     <div id="loading-overlay" class="hidden fixed inset-0 bg-white/90 z-[110] flex flex-col items-center justify-center">
@@ -420,6 +422,7 @@
         }
 
         function showModal(text, isError = false) {
+            document.getElementById('modal-btn-area').innerHTML = '<button type="button" onclick="closeModal()" class="w-full bg-gray-800 hover:bg-gray-900 text-white rounded-xl py-3 font-medium">확인</button>';
             document.getElementById('modal-text').innerText = text;
             document.getElementById('modal-icon').innerHTML = isError ? '<i class="fas fa-exclamation-circle text-red-500"></i>' : '<i class="fas fa-check-circle text-blue-main"></i>';
             document.getElementById('modal-overlay').classList.remove('hidden');
@@ -670,6 +673,44 @@
             return items;
         }
 
+                function showOrderCompleteModal(name, phone) {
+            const last4 = phone.replace(/[^0-9]/g, '').slice(-4);
+            document.getElementById('modal-icon').innerHTML = '<i class="fas fa-check-circle text-emerald-500"></i>';
+            document.getElementById('modal-text').innerHTML = `
+                <span class="text-lg font-bold text-gray-800">🎉 주문서 작성 완료!</span><br>
+                <span class="text-xs text-gray-500 mt-1 block">주문서가 성공적으로 전송되었습니다.</span>
+                <div class="bg-blue-50 border border-blue-100 p-3.5 rounded-xl my-4 text-left text-xs leading-relaxed">
+                    <div class="text-gray-700"><b>수령인:</b> ${name}</div>
+                    <div class="text-gray-700"><b>연락처:</b> ${phone}</div>
+                    <div class="text-blue-600 font-bold mt-1.5 flex items-center gap-1">
+                        <i class="fas fa-info-circle"></i> 배송 출발 전까지 주문 내용을 언제든 수정하실 수 있습니다.
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('modal-btn-area').innerHTML = `
+                <div class="flex flex-col gap-2">
+                    <button type="button" onclick="goToTrackingFromSuccess('${name}', '${last4}')" class="w-full blue-gradient text-white font-bold py-3.5 rounded-xl text-sm card-shadow flex items-center justify-center gap-1.5 active:scale-95 transition-all">
+                        <i class="fas fa-search"></i> 방금 작성한 주문 확인 / 수정하기
+                    </button>
+                    <button type="button" onclick="closeModal(); goHome();" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-2.5 rounded-xl text-xs transition-colors">
+                        새 주문서 작성 (홈으로)
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('modal-overlay').classList.remove('hidden');
+            setTimeout(() => document.getElementById('modal-content').classList.remove('scale-95'), 10);
+        }
+
+        function goToTrackingFromSuccess(name, last4) {
+            closeModal();
+            showScreen('screen-tracking');
+            document.getElementById('track-name').value = name;
+            document.getElementById('track-phone').value = last4;
+            searchOrderTracking();
+        }
+
         async function submitOrder() {
             if (cart.length === 0) { showModal('추가된 상품이 없습니다.\n상품을 먼저 장바구니에 담아주세요.', true); return; }
 
@@ -742,12 +783,11 @@
                     if (localOrders.length > 20) localOrders.pop();
                     localStorage.setItem('ttang_orders', JSON.stringify(localOrders));
                 } catch(e){}
-                showModal('🎉 주문서 작성이 완료되었습니다!\n장바구니가 초기화됩니다.');
                 cart = []; 
                 document.getElementById('fileNameDisplay').innerText = "선택된 파일 없음";
                 document.getElementById('orderImage').value = "";
                 renderCart();
-                setTimeout(goHome, 2000); 
+                showOrderCompleteModal(name, phone); 
             })
             .catch(error => {
                 hideLoading(); showModal('통신 오류가 발생했습니다.', true);
@@ -774,8 +814,8 @@
                     window.currentTrackedOrders = data;
                     data.forEach((item, index) => {
                         const formattedProduct = (item.product || '').replace(/\n/g, '<br>');
-                        // 입금 및 발송 전(주문접수, 입금대기, 접수)일 때만 수정 버튼 노출
-                        const canEdit = !item.status || item.status === '주문접수' || item.status === '입금대기' || item.status === '접수';
+                        // 발송 전(상품준비중, 주문접수, 입금대기 등)일 때만 수정 버튼 노출 (배송중/배송완료 시 수정 불가)
+                        const canEdit = !item.status || (item.status !== '배송중' && item.status !== '배송완료' && item.status !== '발송완료');
                         
                         html += `
                         <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 shadow-sm">
